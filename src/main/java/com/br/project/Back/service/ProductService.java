@@ -3,6 +3,7 @@ package com.br.project.Back.service;
 import com.br.project.Back.model.Product;
 import com.br.project.Back.model.dto.ProductDTO;
 import com.br.project.Back.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,9 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public Page<Product> findByCriteria(String value, Integer page, Integer pageSize, String sort, String order) {
         Pageable pageRequest = PageRequest.of(page, pageSize, Sort.Direction.fromString(order), sort);
         return productRepository.search(value, pageRequest);
@@ -28,30 +32,9 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public ProductDTO getById(Long id) {
-        ProductDTO productDTO = new ProductDTO();
+    public ProductDTO getById(Long id) throws Exception {
         Product product = productRepository.getById(id);
-
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        productDTO.setDescription(product.getDescription());
-        productDTO.setPrice(product.getPrice());
-        productDTO.setCreationDate(product.getCreationDate());
-        productDTO.setImage(product.getImage());
-        productDTO.setQuantity(product.getQuantity());
-        productDTO.setSku(product.getSku());
-        productDTO.setBrand(product.getBrand());
-        productDTO.setCategory(product.getCategory());
-        productDTO.setActive(product.isActive());
-        productDTO.setFeatured(product.isFeatured());
-        productDTO.setWeight(product.getWeight());
-        productDTO.setDimensions(product.getDimensions());
-        productDTO.setColor(product.getColor());
-        productDTO.setMaterial(product.getMaterial());
-        productDTO.setRating(product.getRating());
-        productDTO.setReviews(product.getReviews());
-        productDTO.setAvailability(product.isAvailability());
-
+        ProductDTO productDTO = this.modelMapper.map(product, ProductDTO.class);
         return productDTO;
     }
 
