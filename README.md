@@ -22,4 +22,5 @@ A estrutura do projeto é organizada de forma a facilitar o desenvolvimento e ma
 
 - Utilizei o Spring Security para garantir que apenas usuários autenticados e autorizados tenham acesso aos recursos da API.
 - Implementei a autenticação com JWT (JSON Web Tokens) para fornecer um meio seguro de autenticação e autorização.
+-
 
