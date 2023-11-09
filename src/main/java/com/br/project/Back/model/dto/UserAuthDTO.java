@@ -4,6 +4,7 @@ public class UserAuthDTO {
 
     private String email;
     private String password;
+    private Boolean returnSecureToken = true;
 
     public UserAuthDTO(){}
 
@@ -21,5 +22,13 @@ public class UserAuthDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getReturnSecureToken() {
+        return returnSecureToken;
+    }
+
+    public void setReturnSecureToken(Boolean returnSecureToken) {
+        this.returnSecureToken = returnSecureToken;
     }
 }

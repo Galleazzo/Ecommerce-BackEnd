@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class FirebaseGateway {
 
-    @Value("url.google.identitytoolkit")
+    @Value("${url.google.identitytoolkit}")
     private String loginURL;
 
     @Autowired
@@ -19,7 +21,7 @@ public class FirebaseGateway {
     public ResponseEntity<?> login(UserAuthDTO userAuthDTO) {
         try {
             ResponseEntity<Object> result = this.restTemplate.postForEntity(this.loginURL, userAuthDTO, Object.class);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result.getBody(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("ERRO NA REQUEST", HttpStatus.BAD_REQUEST);
         }

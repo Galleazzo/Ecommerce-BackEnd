@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/login")
 public class AutenticationController {
 
-    private FirebaseGateway firebaseGateway = new FirebaseGateway();
+    @Autowired
+    private FirebaseGateway firebaseGateway;
 
 
     @PostMapping(produces = "application/json", consumes = "application/json")
