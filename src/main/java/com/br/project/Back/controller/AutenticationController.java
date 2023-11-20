@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 public class AutenticationController {
 
     @Autowired
@@ -24,9 +24,9 @@ public class AutenticationController {
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping
-    public ResponseEntity login(@RequestBody User user){
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+    @PostMapping(path = "/login", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) throws Exception{
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
         Authentication authentication =  this.authenticationManager.authenticate(authenticationToken);
 
         String tokenJWT = this.tokenService.generateToken((User) authentication.getPrincipal());
