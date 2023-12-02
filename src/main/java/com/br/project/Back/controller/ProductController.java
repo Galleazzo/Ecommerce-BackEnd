@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -21,6 +23,11 @@ public class ProductController {
                                        @RequestParam Integer pageSize, @RequestParam String sort,
                                        @RequestParam String order) {
         return productService.findByCriteria(value, page, pageSize, sort, order);
+    }
+
+    @GetMapping("/getAll")
+    public List<Product> getAllProducts(){
+        return this.productService.getAllProducts();
     }
 
     @GetMapping("/{id}")

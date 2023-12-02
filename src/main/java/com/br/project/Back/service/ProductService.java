@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -86,4 +87,8 @@ public class ProductService {
         return dto;
     }
 
+    public List<Product> getAllProducts() {
+        List<Product> productList =this.productRepository.findAll();
+        return productList;
+    }
 }
