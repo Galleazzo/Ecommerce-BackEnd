@@ -18,7 +18,6 @@ public class CorsFilterConfig {
 
     @Bean
     public FilterRegistrationBean<CorsFilter> initCorsFilter() {
-        // @formatter:off
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -26,7 +25,6 @@ public class CorsFilterConfig {
         config.addAllowedMethod("*");
         config.setAllowedOrigins(allowedOrigins);
 
-        // Configuração específica para a API /auth/login
         UrlBasedCorsConfigurationSource authConfigSource = new UrlBasedCorsConfigurationSource();
         CorsConfiguration authConfig = new CorsConfiguration();
         authConfig.setAllowCredentials(true);
@@ -35,11 +33,9 @@ public class CorsFilterConfig {
         authConfig.setAllowedOrigins(allowedOrigins);
         authConfigSource.registerCorsConfiguration("/auth/login", authConfig);
 
-        // Registrar as configurações para /** e /auth/login
         source.registerCorsConfiguration("/**", config);
         source.registerCorsConfiguration("/auth/login", authConfig);
 
-        // @formatter:on
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
