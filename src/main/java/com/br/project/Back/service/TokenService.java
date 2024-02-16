@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.br.project.Back.model.User;
 import com.br.project.Back.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,21 @@ public class TokenService {
                     .getSubject();
         } catch (JWTVerificationException exception){
             throw new RuntimeException("Token JWT invalido ou expirado");
+        }
+    }
+
+    public boolean cheaakValidToken(String tokenJWT){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+            DecodedJWT jwt = JWT.require(algorithm)
+                    .withIssuer("E-COMMERCE")
+                    .build()
+                    .verify(tokenJWT);
+            // Verifica se o token está válido
+            return true;
+        } catch (JWTVerificationException exception){
+            // Se ocorrer uma exceção, o token é inválido ou expirou
+            return false;
         }
     }
 }

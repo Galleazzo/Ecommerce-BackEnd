@@ -5,14 +5,12 @@ import com.br.project.Back.model.dto.UserDTO;
 import com.br.project.Back.model.dto.tokenDTO;
 import com.br.project.Back.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,5 +30,15 @@ public class AutenticationController {
         String tokenJWT = this.tokenService.generateToken((User) authentication.getPrincipal());
 
         return ResponseEntity.ok(new tokenDTO(tokenJWT));
+    }
+
+    @GetMapping("/checkToken")
+    public ResponseEntity<Boolean> checkTokenValidity(@RequestParam("token") String token) {
+        try {
+            boolean isValid = tokenService.cheaakValidToken(token);
+            return ResponseEntity.ok(isValid);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
     }
 }

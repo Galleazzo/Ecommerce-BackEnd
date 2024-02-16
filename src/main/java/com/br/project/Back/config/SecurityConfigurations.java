@@ -28,7 +28,8 @@ public class SecurityConfigurations {
                         .and().authorizeRequests()
                         .antMatchers(HttpMethod.OPTIONS, "/auth/login").permitAll()
                         .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/auth/checkToken").permitAll()
+                        .antMatchers(HttpMethod.GET, "/auth/checkToken").permitAll()
                         .anyRequest().authenticated()
                         .and().addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class)
                         .build();
